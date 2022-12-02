@@ -1,4 +1,4 @@
-import y2021.*
+import y2022.*
 
 fun main(args: Array<String>) {
 
