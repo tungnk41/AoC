@@ -2,8 +2,8 @@
 
 
 int main() {
-    int ans_1 = P1::solve_1();
-    int ans_2 = P1::solve_2();
+    int ans_1 = P2::solve_1();
+    int ans_2 = P2::solve_2();
     // auto print = [ans]() {
     //     std::cout << ans << std::endl;
     // };
