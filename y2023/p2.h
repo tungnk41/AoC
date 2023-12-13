@@ -16,34 +16,36 @@ namespace P2 {
             std::string temp;
             auto posSeparate = line.find(':');
             std::istringstream ssGameID(line.substr(0, posSeparate));
-            std::string strCubes(line.substr(posSeparate + 1, line.size()-1));
-            std::replace(strCubes.begin(), strCubes.end(), ';',',');
-            cout << strCubes << endl;
-            std::istringstream ssCubes(strCubes);
+            std::string strGame(line.substr(posSeparate + 1, line.size()-1));
+            cout << strGame << endl;
+            std::istringstream ssGame(strGame);
             ssGameID >> temp >> temp;
             gameID = std::stoi(temp);
-            std::string bag;
-            while (std::getline(ssCubes, bag, ',')) {
+            std::string subset;
+            while (std::getline(ssGame, subset, ';')) {
+                std::string cubes;
                 std::string totalGem;
                 std::string gemType;
-                std::stringstream tCubes(bag);
-                tCubes >> totalGem >> gemType;
-                if (gemType == "red") {
-                    red += std::stoi(totalGem);
-                }
-                if (gemType == "green") {
-                    green += std::stoi(totalGem);
-                }
-                if (gemType == "blue") {
-                    blue += std::stoi(totalGem);
+                std::stringstream ssSubset(subset);
+                cout << "Subset " << subset <<endl;
+                while (std::getline(ssSubset, cubes, ',')) {
+                    std::stringstream ssCubes(cubes);
+                    ssCubes >> totalGem >> gemType;
+                    if (gemType == "red") {
+                        red = MAX(std::stoi(totalGem), red);
+                    }
+                    if (gemType == "blue") {
+                        blue = MAX(std::stoi(totalGem), blue);
+                    }
+                    if (gemType == "green") {
+                        green = MAX(std::stoi(totalGem), green);
+                    }
                 }
             }
-            
             if ( (red <= 12) && (blue <= 14) && (green <= 13)) {
                 ids.push_back(gameID);
                 count += gameID;
                 cout << "GameID: " << gameID << " - red: " << red << " green: " << green << " blue: " << blue << endl;
-                cout <<"#### " << gameID << endl;
             }
         }
 
