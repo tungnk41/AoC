@@ -7,6 +7,7 @@ namespace P2 {
         vi ids;
         vs input;
         FastIO::readFile(input);
+        int count = 0;
         for(const auto& line : input) {
             int gameID = 0;
             int green = 0;
@@ -15,14 +16,18 @@ namespace P2 {
             std::string temp;
             auto posSeparate = line.find(':');
             std::istringstream ssGameID(line.substr(0, posSeparate));
-            std::istringstream ssCubes(line.substr(posSeparate + 1, line.size()-1));
-            cout << ssCubes.str() << endl;
+            std::string strCubes(line.substr(posSeparate + 1, line.size()-1));
+            std::replace(strCubes.begin(), strCubes.end(), ';',',');
+            cout << strCubes << endl;
+            std::istringstream ssCubes(strCubes);
             ssGameID >> temp >> temp;
-            int count = 0;
-            while(count <= 1) {
+            gameID = std::stoi(temp);
+            std::string bag;
+            while (std::getline(ssCubes, bag, ',')) {
                 std::string totalGem;
                 std::string gemType;
-                ssCubes >> totalGem >> gemType;
+                std::stringstream tCubes(bag);
+                tCubes >> totalGem >> gemType;
                 if (gemType == "red") {
                     red += std::stoi(totalGem);
                 }
@@ -32,11 +37,13 @@ namespace P2 {
                 if (gemType == "blue") {
                     blue += std::stoi(totalGem);
                 }
-                cout << red << endl;
-                cout << green << endl;
-                cout << blue << endl;
-                cout << "#####" << endl;
-                count++;
+            }
+            
+            if ( (red <= 12) && (blue <= 14) && (green <= 13)) {
+                ids.push_back(gameID);
+                count += gameID;
+                cout << "GameID: " << gameID << " - red: " << red << " green: " << green << " blue: " << blue << endl;
+                cout <<"#### " << gameID << endl;
             }
         }
 
@@ -44,7 +51,7 @@ namespace P2 {
             // std::cout << i << std::endl;
             ans += i;
         }
-        return ans;
+        return count;
     }
 
     static int solve_2() {
